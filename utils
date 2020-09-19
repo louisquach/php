@@ -1,0 +1,31 @@
+            --------- Select all row in table-----------
+
+            $selectData = "SELECT * FROM bluesky";
+            $findStaff = $conn->fetchAll($selectData);
+         
+            if (!$findStaff) { 
+                die ('Could not get data'. mysql_error());  
+            }
+
+            -------------Different ways to print data-------------
+            1.var_dump($findStaff);                     
+                                                   
+            2.{ 
+                foreach ($findStaff as $key => $value) {   
+                    echo "$key => $value <br>";        
+                }                                     
+            }
+
+            3. {
+                echo "<pre>";                         
+                echo var_export($findStaff);            
+                echo "</pre>";                        
+            }
+
+            ------------ Update data ----------------
+                $updateTarget = "UPDATE bluesky
+                                SET PHONE='0411446804'
+                                WHERE ID=1
+                                ";
+                $updateAction = $conn->prepare($updateTarget);
+                $updateAction->execute();

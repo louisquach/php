@@ -2,6 +2,7 @@
     "name": "luan/practice-php",
     "type": "library",
     "require": {
-        "doctrine/dbal": "^2.10"
+        "doctrine/dbal": "^2.10",
+        "symfony/console": "^5.1"
     }
 }

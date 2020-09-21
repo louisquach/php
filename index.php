@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Doctrine\DBAL\DriverManager;
  
 $console = new Application();
  
@@ -25,7 +24,7 @@ The <info>do:command [option]</info>, this command will execute the option.
   To create table on database:
     <info>php index.php do:command create-tb</info>
   To insert data into the table:
-    <info>php index.php do:command add-data</info>
+    <info>php index.php do:command insert-data</info>
   To print data from the table:
     <info>php index.php do:command print-data</info>
   To print data from the table:
@@ -35,15 +34,9 @@ The <info>do:command [option]</info>, this command will execute the option.
   ->setCode(function (InputInterface $input, OutputInterface $output) {
     $option = $input->getArgument('option');
     $io = new SymfonyStyle($input, $output);
-    $connectionParams = array(
-        'dbname' => 'mysql',
-        'user' => 'root',
-        'password' => '',
-        'host' => 'localhost',
-        'driver' => 'pdo_mysql',
-    );
-    $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 
+    require_once('src/commands/Connect.php');
+    
     if (!$conn) {
         $output->writeln('There is problems with connection, please check!');
     }
@@ -51,7 +44,7 @@ The <info>do:command [option]</info>, this command will execute the option.
     if ($option == 'create-tb') {
         require_once('src/commands/CreateTable.php');
     }
-    elseif ($option == 'add-data') {
+    elseif ($option == 'insert-data') {
         require_once('src/commands/AddData.php');
     }
     elseif ($option == 'print-data') {

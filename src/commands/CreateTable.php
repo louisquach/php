@@ -1,13 +1,13 @@
 <?php
 
+$db = "CREATE DATABASE staff_data";
+$createdb = $conn->prepare($db);
+$createdb->execute();
+
 $bluesky = "CREATE TABLE staff_data.bluesky (
-            ID int NOT NULL AUTO_INCREMENT,
-            FULLNAME VARCHAR(100) NOT NULL,
-            EMAIL VARCHAR(100) NOT NULL,
-            PHONE VARCHAR(20) NOT NULL,
-            START_DAY DATE,
-            PRIMARY KEY (ID) )";
-                
+    FIRST_NAME VARCHAR(100) NOT NULL,
+    LAST_NAME VARCHAR(100) NOT NULL
+    )";
 $createTableAction = $conn->prepare($bluesky);
 $createTableAction->execute();
 

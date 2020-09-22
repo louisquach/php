@@ -6,5 +6,5 @@ $deleteAction = $conn->prepare($deleteCommand);
 $deleteAction->execute();
 
 if ($deleteAction) {
-    echo 'Deleted successfully!';
+    $io->success('Deleted successfully!');
 }

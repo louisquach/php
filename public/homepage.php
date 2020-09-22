@@ -1,5 +1,6 @@
 <?php
     require_once __DIR__.'/../src/commands/Connect.php';
+    require_once __DIR__.'/../vendor/autoload.php';
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +13,10 @@
 </head>
 <body>
     <div class='container'>
-        <div class='container__content'>
-
+        <div class="container__content">
             <h1>DATABASE</h1>
+
             <form action='' method='POST' class='form'>
-                <p class='input'>ID: <input type='text' name='id' required></p>
                 <p class='input'>Full Name: <input type='text' name='fullname' required></p>
                 <p class='input'>Email: <input type='text' name='email' required></p>
                 <p class='input'>Phone: <input type='text' name='phone' required></p>
@@ -24,54 +24,75 @@
 
                 <div class='container__btn'>
                     <input type='submit' name='insert' value='Add Data' class='btn'>
-                    <input type='submit' name='print' value='Print Data' class='btn'>
                 </div>
-
             </form>
+
+            <div class='find__container'>
+                <form action='' method='GET' class='get__form'>
+                    Email: <input type='text' name='findemail' required>
+                    <input type='submit' name='printdata' value='Find Email' class='btn'>
+                </form>
+
+                <form action='' method='GET' class='get__form'>
+                    <input type='submit' name='printall' value='Print All' class='btn'>
+                </form>
+
+                <form action='' method='GET' class='get__form'>
+                    <input type='submit' name='delete' value='Delete All' class='btn'>
+                </form>
+            </div>
         </div>
     </div>
 
     <?php
-    
-    if (isset($_POST['insert'])) {
-        $bluesky = "CREATE TABLE staff_data.bluesky (
-                    ID int NOT NULL AUTO_INCREMENT,
-                    FULLNAME VARCHAR(100) NOT NULL,
-                    EMAIL VARCHAR(100) NOT NULL,
-                    PHONE VARCHAR(20) NOT NULL,
-                    START_DAY VARCHAR(20) NOT NULL,
-                    PRIMARY KEY (ID) )";
-                            
-        $createTableAction = $conn->prepare($bluesky);
-        $createTableAction->execute();
-        
-        if (!$createTableAction) {
-            echo 'created table failed';
-        }
-        echo "Create table successfully!";
 
+    // ADD DATA
+    if (isset($_POST['insert'])) {
         $queryBuilder = $conn->createQueryBuilder();
         $queryBuilder
-        ->insert('staff_data.bluesky')
-        ->values(
-            array(
-                'ID' => '?',
-                'FULLNAME' => '?',
-                'EMAIL' => '?',
-                'PHONE' => '?',
-                'START_DAY' => '?' 
-            )
+            ->insert('staff_data.bluesky')
+            ->values(
+                array(
+                    'FULLNAME' => '?',
+                    'EMAIL' => '?',
+                    'PHONE' => '?',
+                    'START_DAY' => '?' 
+                )
         )
-        ->setParameter(0, $_POST['id'])
         ->setParameter(1, $_POST['fullname'])
         ->setParameter(2, $_POST['email'])
         ->setParameter(3, $_POST['phone'])
         ->setParameter(4, $_POST['date'])
         ->execute();
+
+        if ($queryBuilder) {
+            echo "Added data successfully!";
+        }
     }
-    
-    function printData() {
-        echo 'hello';
+
+    // FIND DATA BY EMAIL
+    if (isset($_GET['printdata'])) {
+        $staffId = "SELECT * FROM staff_data.bluesky WHERE EMAIL = ?";
+        $findStaff = $conn->fetchArray($staffId,array($_GET['findemail']));
+        
+        if (!$findStaff) {
+            echo "Could not get the data ";
+        }
+        
+        //PRINT RESULT
+        echo "<pre>";                         
+        print_r($findStaff);                       
+        echo "</pre>";   
+    }
+
+    // PRINT ALL DATA FROM THE TABLE
+    if (isset($_GET['printall'])) {
+        require_once __DIR__.'/../src/commands/PrintData.php';  
+    }
+
+    // DELETE ALL DATA FROM THE TABLE
+    if (isset($_GET['delete'])) {
+        require_once __DIR__.'/../src/commands/DeleteData.php';  
     }
 
     ?>

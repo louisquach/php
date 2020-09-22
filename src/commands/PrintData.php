@@ -1,10 +1,10 @@
 <?php
 
-$staffId = "SELECT * FROM staff_data.bluesky WHERE ID = ?";
-$findStaff = $conn->fetchArray($staffId,array(1));
+$staffId = "SELECT * FROM staff_data.bluesky";
+$findStaff = $conn->fetchAll($staffId);
 
 if (!$findStaff) {
-    $io->error("Could not get the data " . mysql_error);
+    echo "Could not get the data ";
 }
 
 //PRINT RESULT

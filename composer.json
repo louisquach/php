@@ -1,5 +1,6 @@
 {
-    "name": "luan/practice-php",
+    "name": "minh/practice-php",
+    "description": "Small project using doctrine/dbal and symfony/console to work with database",
     "type": "library",
     "require": {
         "doctrine/dbal": "^2.10",

@@ -18,18 +18,18 @@ $console
     ))
   ->setDescription('Work with database')
   ->setHelp('
-The <info>do:command [option]</info>, this command will execute the option.
+<info>do:command [option]</info>, this command will execute the option.
  
-<comment>Samples:</comment>
-  To create table on database:
-    <info>php index.php do:command create-tb</info>
-  To insert data into the table:
-    <info>php index.php do:command insert-data</info>
-  To print data from the table:
-    <info>php index.php do:command print-data</info>
-  To print data from the table:
-    <info>php index.php do:command drop-table</info>
+*** <comment>Samples:</comment>
 
+  To insert data into the table:
+    ><info>php index.php do:command insert-data</info>
+
+  To print data from the table:
+    ><info>php index.php do:command print-data</info>
+
+  To delete data in the table:
+    ><info>php index.php do:command delete-data</info>
 ')
   ->setCode(function (InputInterface $input, OutputInterface $output) {
     $option = $input->getArgument('option');
@@ -44,15 +44,19 @@ The <info>do:command [option]</info>, this command will execute the option.
     if ($option == 'create-tb') {
         require_once('src/commands/CreateTable.php');
     }
+
     elseif ($option == 'insert-data') {
         require_once('src/commands/AddData.php');
     }
+    
     elseif ($option == 'print-data') {
         require_once('src/commands/PrintData.php');
     }
-    elseif ($option == 'drop-table') {
-        require_once('src/commands/DropTable.php');
+    
+    elseif ($option == 'delete-data') {
+        require_once('src/commands/DeleteData.php');
     }
+
     else {
         $io->text('Please choose an correct option or enter "php index.php -h" to get help!');
     }
